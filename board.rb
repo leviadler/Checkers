@@ -7,7 +7,7 @@ class Board
   
   def initialize(setup = false)
     @grid = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
-    #setup_board if setup
+    setup_board if setup
   end
   
   def render
@@ -15,7 +15,11 @@ class Board
     BOARD_SIZE.times do |x|
       print "#{x} "
       BOARD_SIZE.times do |y|
-        print "[#{x},#{y}]"
+        if self[[x,y]]
+          print "[#{self[[x,y]]}]"
+        else
+          print "[ ]"
+        end
       end
       print "\n"
     end
@@ -33,7 +37,23 @@ class Board
   end
   
   def valid_move?(pos)
-    pos.all? { |coord| coord.between?(0,7) }
+    pos.all? { |coord| coord.between?(0, 7) }
+  end
+  
+  # not sure if needed
+  def pieces
+    @grid.flatten.compact
+  end
+  
+  def setup_board
+    (0..2).each { |row| fill_row(row, :r) }
+    (5..7).each { |row| fill_row(row, :b) }
+  end
+  
+  def fill_row(row, color)
+    @grid[row].each_index do |index|
+      Piece.new(color, [row, index], self) if (row + index).odd?
+    end
   end
   
 end

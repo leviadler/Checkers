@@ -1,11 +1,12 @@
 # encoding: utf-8
+require './board'
 
 class Piece
   
   UP_SLIDES = [[-1, -1], [-1, 1]]
   UP_JUMPS = [[-2, -2], [-2, 2]]
   DOWN_SLIDES = [[1, -1],[1, 1]]
-  DOWN_JUMPS = [[2, -2].,[2, 2]]
+  DOWN_JUMPS = [[2, -2],[2, 2]]
   
   attr_accessor :color, :position, :board
   
@@ -39,13 +40,14 @@ class Piece
   
   def generate_slides(moves)
     x, y = position
-    slide_position = []
+    slide_positions = []
+    
     moves.each do |a, b|
       new_position = [x + a, y + b]
-      slide_position << new_position unless board.valid_move?
+      slide_positions << new_position unless board.valid_move?
     end
-      
     
+    slide_positions
   end
   
   def generate_jumps(moves)
