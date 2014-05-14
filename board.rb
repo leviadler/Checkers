@@ -1,3 +1,6 @@
+# encoding: utf-8
+require './piece.rb'
+
 class Board
   
   BOARD_SIZE = 8
@@ -17,6 +20,20 @@ class Board
       print "\n"
     end
         
+  end
+  
+  def [](pos)
+    x, y = pos
+    @grid[x][y]
+  end
+  
+  def []=(pos, value)
+    x, y = pos
+    @grid[x][y] = value
+  end
+  
+  def valid_move?(pos)
+    pos.all? { |coord| coord.between?(0,7) }
   end
   
 end
