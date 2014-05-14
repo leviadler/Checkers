@@ -31,7 +31,6 @@ class Piece
 
   def perform_jump
     generate_jumps(move_diffs.last)
-
   end
 
   def move_diffs
