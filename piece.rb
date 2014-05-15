@@ -19,23 +19,23 @@ class Piece
   end
 
   def perform_slide(end_pos)
-    slide_positions = generate_slides(move_diffs.first)
+    slide_positions = generate_slides
     if slide_positions.include?(end_pos)
       board[self.position] = nil
       board[end_pos] = self
       return true
     end
-    #raise "invalid"
+    raise "invalid slide"
     false
   end
 
   def perform_jump(end_pos)
-    jump_positions = generate_jumps(move_diffs.last)
+    jump_positions = generate_jumps
 
-    if jump_positions.include?(end_pos)
+    if jump_positions.keys.include?(end_pos)
       board[self.position] = nil
       board[end_pos] = self
-      pos_jumping = [end_pos[0] + 1, end_pos[1] + 1] # this is incorrect and only works when going up left
+      pos_jumping = jump_positions[end_pos]
       board[pos_jumping] = nil
       return true
     end
@@ -53,11 +53,11 @@ class Piece
     end
   end
 
-  def generate_slides(moves)
+  def generate_slides
     x, y = position
     slide_positions = []
 
-    moves.each do |a, b|
+    move_diffs.first.each do |a, b|
       new_position = [x + a, y + b]
       if valid_move?(new_position)
         slide_positions << new_position
@@ -67,21 +67,19 @@ class Piece
     slide_positions
   end
 
-
-  # maybe generate jumps should take a .zip of slides and jumps and return both the [valid_move, pos_jumping] in a 2D array?
-  # then can itterate with_index
-  # seems long and not necessary
-  def generate_jumps(moves)
+  def generate_jumps
+    jump_positions = {}
+    
     x, y = position
-    jump_positions = []
-    positions_jumping = move_diffs.first
+    move_and_jump_pos = move_diffs.last.zip(move_diffs.first)
+    p move_and_jump_pos
 
-    moves.each_with_index do |move, index|
+    move_and_jump_pos.each do |move, jumping|
       new_position = [x + move.first, y + move.last]
-      pos_jumping = [x + positions_jumping[index][0], y + positions_jumping[index][1]]
-      p pos_jumping
+      pos_jumping = [x + jumping.first, y + jumping.last]
+
       if valid_jump?(new_position, pos_jumping)
-        jump_positions << new_position
+        jump_positions[new_position] = pos_jumping
       end
     end
 
@@ -125,4 +123,5 @@ if __FILE__ == $PROGRAM_NAME
   b.render
   b[[1,2]].perform_jump([3,0])
   b.render
+  b[[0,1]].perform_slide([1,0])
 end
