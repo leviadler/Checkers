@@ -25,6 +25,15 @@ class Piece
     Piece.new(self.color, self.position, new_board)
   end
   
+  def perform_moves(move_sequence)
+    if valid_move_seq?(move_sequence)
+      perform_moves!(move_sequence)
+    else
+      raise InvalidMoveError, "Invalid move sequence!"
+    end
+  end
+  
+  protected
   def perform_moves!(move_sequence)
     if move_sequence.count == 1
       unless perform_slide(move_sequence[0]) || perform_jump(move_sequence[0])
@@ -47,14 +56,6 @@ class Piece
       return false
     else
       true
-    end
-  end
-  
-  def perform_moves(move_sequence)
-    if valid_move_seq?(move_sequence)
-      perform_moves!(move_sequence)
-    else
-      raise InvalidMoveError, "Invalid move sequence!"
     end
   end
   

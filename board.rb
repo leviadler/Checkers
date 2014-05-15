@@ -55,9 +55,12 @@ class Board
     self[pos] && self[pos].color != my_color
   end
 
-  # not sure if needed
-  def pieces
-    @grid.flatten.compact
+  def pieces(color = nil)
+    if color
+      @grid.flatten.compact.select {|piece| piece.color == color}
+    else
+      @grid.flatten.compact
+    end
   end
 
   def setup_board
