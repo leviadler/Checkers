@@ -39,7 +39,9 @@ class Game
   end
   
   def check_start_pos(pos)
-    if board.empty?(pos)
+    if !board.on_board?(pos)
+      raise InvalidMoveError, "#{pos} is not a possition on the board!"
+    elsif board.empty?(pos)
       raise InvalidMoveError, "No piece at #{pos}!"
     elsif board[pos].color != @players.first.color
       raise InvalidMoveError, "Thats not your piece!"

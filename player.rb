@@ -1,3 +1,6 @@
+class InvalidInputError < StandardError
+end
+
 
 class Player
   
@@ -19,14 +22,12 @@ class HumanPlayer < Player
   
   def make_move
     puts "Hi #{@name}, you are #{color_to_s}."
-    puts "Which piece would you like to move? (ex. 2,7)"
-    start_pos = get_input
+    start_pos = get_input("Which piece would you like to move? (ex. 2,7)")
     
     move_seq = []
     
     loop do
-      puts "Where would you like to move to?"
-      move_seq << get_input
+      move_seq << get_input("Where would you like to move to?")
       puts "Make another move? (y/n)"
       another_move = gets.chomp
       break if another_move.downcase != "y"
@@ -35,10 +36,22 @@ class HumanPlayer < Player
     [start_pos, move_seq]
   end
   
-  def get_input
-    input = gets.chomp.squeeze.split(",")
-    input.map { |i| Integer(i) }
+  def get_input(message)
+    begin
+      puts message
+      input = gets.chomp.squeeze.split(",")
+      pos = input.map { |i| Integer(i) }
+      
+      if input.count != 2
+        raise InvalidInputError, "Invalid input!"
+      end
+      
+      pos
+    rescue InvalidInputError, ArgumentError
+      puts "Invalid input! Please enter 2 numbers seperated by a comma."
+      retry
+    end
+      
   end
-  
   
 end
