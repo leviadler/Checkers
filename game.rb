@@ -33,7 +33,7 @@ class Game
         confirm_quit
         retry
       rescue InvalidMoveError => e
-        puts e.message
+        puts e.message.colorize(:red)
         retry
       end
         

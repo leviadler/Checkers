@@ -67,6 +67,7 @@ class Piece
     slide_positions = generate_slides
     if slide_positions.include?(end_pos)
       raise InvalidMoveError, "Invalid move. Jump available!" if jump_available?
+      
       board[self.position] = nil
       board[end_pos] = self
       
