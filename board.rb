@@ -51,7 +51,7 @@ class Board
   end
 
   def on_board?(pos)
-    pos.all? { |coord| coord.between?(0, 7) }
+    pos.all? { |coord| coord.between?(0, BOARD_SIZE-1) }
   end
 
   def has_opponent?(my_color, pos)

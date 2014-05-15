@@ -51,7 +51,7 @@ class Piece
     new_board = board.dup
     begin
       new_board[position].perform_moves!(move_sequence)
-    rescue
+    rescue InvalidMoveError
       return false
     else
       true
