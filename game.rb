@@ -29,6 +29,9 @@ class Game
         check_start_pos(start_pos)
         
         board[start_pos].perform_moves(move_seq)
+      rescue Interrupt
+        confirm_quit
+        retry
       rescue InvalidMoveError => e
         puts e.message
         retry
@@ -53,6 +56,11 @@ class Game
     elsif board[pos].color != @players.first.color
       raise InvalidMoveError, "Thats not your piece!"
     end
+  end
+  
+  def confirm_quit
+    puts "\nQuit game without saving? (y/n)"
+    exit if gets.chomp.downcase == "y"
   end
   
   def save_game
