@@ -31,7 +31,7 @@ class Piece
 
   def perform_jump(end_pos)
     jump_positions = generate_jumps(move_diffs.last)
-    p jump_positions.include?(end_pos)
+
     if jump_positions.include?(end_pos)
       board[self.position] = nil
       board[end_pos] = self
