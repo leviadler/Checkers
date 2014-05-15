@@ -3,7 +3,7 @@ require './errors'
 class Player
   
   attr_accessor :color
-  attr_reader :name
+  attr_reader :name, :color_to_s
   
   def initialize(name)
     @name = name

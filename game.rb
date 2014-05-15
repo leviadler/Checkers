@@ -31,7 +31,7 @@ class Game
     end
     
     board.render
-    puts "Game over!"
+    puts "Game over! #{@players.last.name} (#{@players.last.color_to_s}) wins!"
   end
   
   def won?
