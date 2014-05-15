@@ -1,6 +1,9 @@
 # encoding: utf-8
 require './board'
 
+class InvalidMoveError < StandardError
+end
+
 class Piece
 
   UP_SLIDES = [[-1, -1], [-1, 1]]
@@ -17,7 +20,29 @@ class Piece
     @board = board
     board[position] = self
   end
-
+  
+  def dup(new_board)
+    Piece.new(self.color, self.position, new_board)
+  end
+  
+  def perform_moves!(move_sequence)
+    if move_sequence.count == 1
+      unless perform_slide(move_sequence[0]) || perform_jump(move_sequence[0])
+        raise InvalidMoveError, "Invalid move! Cannot move to #{move_sequence[0]}."
+      end
+    else
+      move_sequence.each do |move|
+        unless perform_jump(move)
+          raise InvalidMoveError, "Invalid move! Cannot move to #{move}."
+        end
+      end
+    end
+  end
+  
+  def valid_move_seq?(move_sequence)
+    
+  end
+  
   def perform_slide(end_pos)
     slide_positions = generate_slides
     if slide_positions.include?(end_pos)
@@ -27,7 +52,7 @@ class Piece
       maybe_promote
       return true
     end
-    raise "invalid slide"
+    #raise "invalid slide"
     false
   end
 
@@ -45,7 +70,7 @@ class Piece
       maybe_promote
       return true
     end
-    raise "invalid jump"
+    #raise "invalid jump"
     false
   end
 
@@ -104,9 +129,9 @@ class Piece
   end
 
   def maybe_promote
-    if color == :b && position.first == 7
+    if color == :b && position.first == 0
       @king = true
-    elsif color == :r && position.first == 0
+    elsif color == :r && position.first == 7
       @king = true
     end
   end
@@ -124,13 +149,19 @@ end
 if __FILE__ == $PROGRAM_NAME
   b = Board.new(true)
   b.render
-  b[[2,1]].perform_slide([3,2])
+  b[[2,1]].perform_moves!([[3,2]])
   b.render
-  b[[5,2]].perform_slide([4,3])
+  b[[5,2]].perform_moves!([[4,3]])
   b.render
-  b[[4,3]].perform_jump([2,1])
+  b[[4,3]].perform_moves!([[2,1]])
   b.render
-  b[[1,2]].perform_jump([3,0])
+  b[[1,2]].perform_moves!([[3,0]])
   b.render
-  b[[0,1]].perform_slide([1,0])
+  b[[5,0]].perform_moves!([[4,1]])
+  b.render
+  b[[7,4]] = nil
+  b.render
+  
+  b[[3,0]].perform_moves!([[5,2], [7,4]])
+  b.render
 end

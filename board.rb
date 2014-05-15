@@ -40,6 +40,12 @@ class Board
   def empty?(pos)
     self[pos].nil?
   end
+  
+  def dup
+    new_board = Board.new
+    self.pieces.each { |piece| piece.dup(new_board) }
+    new_board
+  end
 
   def on_board?(pos)
     pos.all? { |coord| coord.between?(0, 7) }
