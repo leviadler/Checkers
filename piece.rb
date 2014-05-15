@@ -28,8 +28,12 @@ class Piece
     if valid_move_seq?(move_sequence)
       perform_moves!(move_sequence)
     else
-      raise InvalidMoveError, "Invalid move sequence!"
+      raise InvalidMoveError, "Invalid Move Sequence or Jump Available!"
     end
+  end
+  
+  def jump_available?
+    board.pieces(color).any? { |piece| !piece.generate_jumps.empty? }
   end
   
   protected
@@ -53,14 +57,15 @@ class Piece
       new_board[position].perform_moves!(move_sequence)
     rescue InvalidMoveError
       return false
-    else
-      true
     end
+    
+    true
   end
   
   def perform_slide(end_pos)
     slide_positions = generate_slides
     if slide_positions.include?(end_pos)
+      raise InvalidMoveError, "Jump available!" if jump_available?
       board[self.position] = nil
       board[end_pos] = self
       
@@ -188,7 +193,8 @@ if __FILE__ == $PROGRAM_NAME
   
   b[[5,6]].perform_moves([[4,5]])
   b.render
-  
+  #b[[0,1]].perform_moves([[1,2]])
+  #b.render
   b[[7,4]].perform_moves([[5,6], [3,4]])
   b.render
 end

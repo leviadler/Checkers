@@ -17,8 +17,10 @@ class Board
   def render
     system "clear"
     puts  "   0  1  2  3  4  5  6  7"
+    #puts  "   A  B  C  D  E  F  G  H"
     BOARD_SIZE.times do |x|
       print "#{x} "
+      #print "#{BOARD_SIZE - x} "
       BOARD_SIZE.times do |y|
         str = self[[x,y]] ? " #{self[[x,y]]} " : "   "
         if (x + y).odd?
@@ -63,7 +65,7 @@ class Board
 
   def pieces(color = nil)
     if color
-      @grid.flatten.compact.select {|piece| piece.color == color}
+      @grid.flatten.compact.select { |piece| piece.color == color }
     else
       @grid.flatten.compact
     end
@@ -79,7 +81,7 @@ class Board
 
   def setup_board
     (0..2).each { |row| fill_row(row, :r) }
-    (5..7).each { |row| fill_row(row, :b) }
+    ((BOARD_SIZE - 3)...BOARD_SIZE).each { |row| fill_row(row, :b) }
   end
 
   def fill_row(row, color)
