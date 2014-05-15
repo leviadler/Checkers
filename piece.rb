@@ -1,9 +1,7 @@
 # encoding: utf-8
 require './board'
+require './errors'
 require 'colorize'
-
-class InvalidMoveError < StandardError
-end
 
 class Piece
 

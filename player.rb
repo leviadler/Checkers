@@ -1,6 +1,4 @@
-class InvalidInputError < StandardError
-end
-
+require './errors'
 
 class Player
   
