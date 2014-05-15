@@ -23,6 +23,8 @@ class Piece
     if slide_positions.include?(end_pos)
       board[self.position] = nil
       board[end_pos] = self
+      
+      maybe_promote
       return true
     end
     raise "invalid slide"
@@ -32,11 +34,15 @@ class Piece
   def perform_jump(end_pos)
     jump_positions = generate_jumps
 
-    if jump_positions.keys.include?(end_pos)
+    if jump_positions.include?(end_pos)
+      pos_jumping = pos_jumping(position, end_pos)
+      
       board[self.position] = nil
       board[end_pos] = self
-      pos_jumping = jump_positions[end_pos]
+      
       board[pos_jumping] = nil
+      
+      maybe_promote
       return true
     end
     raise "invalid jump"
@@ -68,24 +74,23 @@ class Piece
   end
 
   def generate_jumps
-    jump_positions = {}
+    jump_positions = []
     
     x, y = position
-    move_and_jump_pos = move_diffs.last.zip(move_diffs.first)
-    p move_and_jump_pos
 
-    move_and_jump_pos.each do |move, jumping|
+    move_diffs.last.each do |move|
       new_position = [x + move.first, y + move.last]
-      pos_jumping = [x + jumping.first, y + jumping.last]
+      pos_jumping = pos_jumping(position, new_position)
 
       if valid_jump?(new_position, pos_jumping)
-        jump_positions[new_position] = pos_jumping
+        jump_positions << new_position
       end
     end
 
     jump_positions
   end
-
+  
+  
   def valid_move?(pos)
     board.on_board?(pos) && board.empty?(pos)
   end
@@ -93,11 +98,15 @@ class Piece
   def valid_jump?(pos, pos_jumping)
     valid_move?(pos) && board.has_opponent?(self.color, pos_jumping)
   end
+  
+  def pos_jumping(start_pos, end_pos)
+    [(start_pos.first + end_pos.first) / 2, (start_pos.last + end_pos.last) / 2 ]
+  end
 
   def maybe_promote
-    if color == :b && position.last == 7
+    if color == :b && position.first == 7
       @king = true
-    elsif color == :r && position.last == 0
+    elsif color == :r && position.first == 0
       @king = true
     end
   end

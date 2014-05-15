@@ -45,8 +45,8 @@ class Board
     pos.all? { |coord| coord.between?(0, 7) }
   end
 
-  def has_opponent?(color, pos)
-    self[pos] && self[pos].color != color
+  def has_opponent?(my_color, pos)
+    self[pos] && self[pos].color != my_color
   end
 
   # not sure if needed
