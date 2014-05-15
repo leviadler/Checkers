@@ -12,16 +12,16 @@ class Piece
 
   attr_accessor :color, :position, :board
 
-  def initialize(color, position, board)
+  def initialize(color, position, board, king = false)
     @color = color
     @position = position
-    @king = false
+    @king = king
     @board = board
     board[position] = self
   end
   
   def dup(new_board)
-    Piece.new(self.color, self.position, new_board)
+    Piece.new(self.color, self.position, new_board, @king)
   end
   
   def perform_moves(move_sequence)
@@ -180,6 +180,9 @@ if __FILE__ == $PROGRAM_NAME
   b[[3,0]].perform_moves([[5,2], [7,4]])
   b.render
   
-  b[[6,1]].perform_moves([[5,2], [4,3]])
+  b[[5,6]].perform_moves([[4,5]])
+  b.render
+  
+  b[[7,4]].perform_moves([[5,6], [3,4]])
   b.render
 end
