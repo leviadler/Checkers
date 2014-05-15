@@ -51,6 +51,10 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  g = Game.new(HumanPlayer.new("John"), HumanPlayer.new("Jim"))
+  puts "Player 1, Enter your name:"
+  name1 = gets.chomp
+  puts "Player 2, Enter your name:"
+  name2 = gets.chomp
+  g = Game.new(HumanPlayer.new(name1), HumanPlayer.new(name2))
   g.play
 end
