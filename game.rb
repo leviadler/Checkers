@@ -2,6 +2,7 @@
 require "./board"
 require "./piece"
 require "./player"
+require 'colorize'
 require 'yaml'
 
 class Game
@@ -22,9 +23,7 @@ class Game
         start_pos, move_seq = @players.first.make_move
         
         if start_pos == :save
-          puts "Saving!"
           save_game
-          exit
         end
           
         check_start_pos(start_pos)
@@ -57,7 +56,11 @@ class Game
   end
   
   def save_game
+    puts "Saving!".colorize(:red).blink
     File.write("saved_game.yml", YAML.dump(self))
+    sleep(5)
+    system "clear"
+    exit
   end
   
   def self.load_game

@@ -66,13 +66,7 @@ board: &1 !ruby/object:Board
       board: *1
     - 
   - - 
-    - !ruby/object:Piece
-      color: :r
-      position:
-      - 2
-      - 1
-      king: false
-      board: *1
+    - 
     - 
     - !ruby/object:Piece
       color: :r
@@ -99,7 +93,13 @@ board: &1 !ruby/object:Board
       board: *1
   - - 
     - 
-    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 3
+      - 2
+      king: false
+      board: *1
     - 
     - 
     - 
@@ -213,8 +213,8 @@ board: &1 !ruby/object:Board
   blacks_jumped: 0
 players:
 - !ruby/object:HumanPlayer
-  name: g
-  color: :r
-- !ruby/object:HumanPlayer
-  name: j
+  name: Jim
   color: :b
+- !ruby/object:HumanPlayer
+  name: John
+  color: :r
