@@ -9,6 +9,9 @@ class Board
   def initialize(setup = false)
     @grid = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     setup_board if setup
+    
+    @reds_jumped = 0
+    @blacks_jumped = 0
   end
 
   def render
@@ -26,7 +29,7 @@ class Board
       end
       print "\n"
     end
-
+    puts "  " + (" ◉" * @reds_jumped).colorize(:red) + (" ◉" * @blacks_jumped)
   end
 
   def [](pos)
@@ -63,6 +66,14 @@ class Board
       @grid.flatten.compact.select {|piece| piece.color == color}
     else
       @grid.flatten.compact
+    end
+  end
+  
+  def add_to_jumped(color)
+    if color == :b
+      @blacks_jumped += 1
+    else
+      @reds_jumped += 1
     end
   end
 

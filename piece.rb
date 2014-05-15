@@ -67,7 +67,7 @@ class Piece
       maybe_promote
       return true
     end
-    #raise "invalid slide"
+
     false
   end
 
@@ -81,11 +81,12 @@ class Piece
       board[end_pos] = self
       
       board[pos_jumping] = nil
+      add_to_jump_count
       
       maybe_promote
       return true
     end
-    #raise "invalid jump"
+    
     false
   end
 
@@ -141,6 +142,11 @@ class Piece
   
   def pos_jumping(start_pos, end_pos)
     [(start_pos.first + end_pos.first) / 2, (start_pos.last + end_pos.last) / 2 ]
+  end
+  
+  def add_to_jump_count
+    color_jumped = color == :b ? :r : :b
+    board.add_to_jumped(color_jumped)
   end
 
   def maybe_promote
