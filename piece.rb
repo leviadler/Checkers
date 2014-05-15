@@ -1,5 +1,6 @@
 # encoding: utf-8
 require './board'
+require 'colorize'
 
 class InvalidMoveError < StandardError
 end
@@ -154,9 +155,9 @@ class Piece
 
   def to_s
     if @king
-      color == :b ? "♚" : "♔"
+      color == :b ? "♚" : "♚".colorize(:red)
     else
-      color == :b ? "◉" : "◎"
+      color == :b ? "◉" : "◉".colorize(:red)
     end
   end
 

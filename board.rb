@@ -1,5 +1,6 @@
 # encoding: utf-8
 require './piece.rb'
+require 'colorize'
 
 class Board
 
@@ -16,10 +17,11 @@ class Board
     BOARD_SIZE.times do |x|
       print "#{x} "
       BOARD_SIZE.times do |y|
-        if self[[x,y]]
-          print "[#{self[[x,y]]}]"
+        str = self[[x,y]] ? " #{self[[x,y]]} " : "   "
+        if (x + y).odd?
+          print str.colorize(:background => :light_black)
         else
-          print "[ ]"
+          print str.colorize( :background => :red)
         end
       end
       print "\n"
