@@ -55,7 +55,8 @@ class Piece
     new_board = board.dup
     begin
       new_board[position].perform_moves!(move_sequence)
-    rescue InvalidMoveError
+    rescue InvalidMoveError => e
+      raise e
       return false
     end
     
@@ -65,7 +66,7 @@ class Piece
   def perform_slide(end_pos)
     slide_positions = generate_slides
     if slide_positions.include?(end_pos)
-      raise InvalidMoveError, "Jump available!" if jump_available?
+      raise InvalidMoveError, "Invalid move. Jump available!" if jump_available?
       board[self.position] = nil
       board[end_pos] = self
       

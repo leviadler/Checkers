@@ -81,6 +81,7 @@ if __FILE__ == $PROGRAM_NAME
   system "clear"
   puts "Would you like to load your last saved game? (y/n)"
   input = gets.chomp.downcase
+  
   if input == "y"
     Game::load_game
   else
