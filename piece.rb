@@ -19,11 +19,11 @@ class Piece
     @board = board
     board[position] = self
   end
-  
+
   def dup(new_board)
     Piece.new(self.color, self.position, new_board, @king)
   end
-  
+
   def perform_moves(move_sequence)
     if valid_move_seq?(move_sequence)
       perform_moves!(move_sequence)
@@ -31,11 +31,11 @@ class Piece
       raise InvalidMoveError, "Invalid Move Sequence or Jump Available!"
     end
   end
-  
+
   def jump_available?
     board.pieces(color).any? { |piece| !piece.generate_jumps.empty? }
   end
-  
+
   protected
   def perform_moves!(move_sequence)
     if move_sequence.count == 1
@@ -50,7 +50,7 @@ class Piece
       end
     end
   end
-  
+
   def valid_move_seq?(move_sequence)
     new_board = board.dup
     begin
@@ -59,18 +59,18 @@ class Piece
       raise e
       return false
     end
-    
+
     true
   end
-  
+
   def perform_slide(end_pos)
     slide_positions = generate_slides
     if slide_positions.include?(end_pos)
       raise InvalidMoveError, "Invalid move. Jump available!" if jump_available?
-      
+
       board[self.position] = nil
       board[end_pos] = self
-      
+
       maybe_promote
       return true
     end
@@ -83,17 +83,17 @@ class Piece
 
     if jump_positions.include?(end_pos)
       pos_jumping = pos_jumping(position, end_pos)
-      
+
       board[self.position] = nil
       board[end_pos] = self
-      
+
       board[pos_jumping] = nil
       add_to_jump_count
-      
+
       maybe_promote
       return true
     end
-    
+
     false
   end
 
@@ -123,7 +123,7 @@ class Piece
 
   def generate_jumps
     jump_positions = []
-    
+
     x, y = position
 
     move_diffs.last.each do |move|
@@ -137,8 +137,8 @@ class Piece
 
     jump_positions
   end
-  
-  
+
+
   def valid_move?(pos)
     board.on_board?(pos) && board.empty?(pos)
   end
@@ -146,11 +146,11 @@ class Piece
   def valid_jump?(pos, pos_jumping)
     valid_move?(pos) && board.has_opponent?(self.color, pos_jumping)
   end
-  
+
   def pos_jumping(start_pos, end_pos)
     [(start_pos.first + end_pos.first) / 2, (start_pos.last + end_pos.last) / 2 ]
   end
-  
+
   def add_to_jump_count
     color_jumped = color == :b ? :r : :b
     board.add_to_jumped(color_jumped)
@@ -189,10 +189,10 @@ if __FILE__ == $PROGRAM_NAME
   b.render
   b[[7,4]] = nil
   b.render
-  
+
   b[[3,0]].perform_moves([[5,2], [7,4]])
   b.render
-  
+
   b[[5,6]].perform_moves([[4,5]])
   b.render
   #b[[0,1]].perform_moves([[1,2]])

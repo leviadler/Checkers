@@ -9,7 +9,7 @@ class Board
   def initialize(setup = false)
     @grid = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     setup_board if setup
-    
+
     @reds_jumped = 0
     @blacks_jumped = 0
   end
@@ -48,7 +48,7 @@ class Board
   def empty?(pos)
     self[pos].nil?
   end
-  
+
   def dup
     new_board = Board.new
     self.pieces.each { |piece| piece.dup(new_board) }
@@ -70,7 +70,7 @@ class Board
       @grid.flatten.compact
     end
   end
-  
+
   def add_to_jumped(color)
     if color == :b
       @blacks_jumped += 1
