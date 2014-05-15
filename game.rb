@@ -14,7 +14,13 @@ class Game
   def play
     until won?
       board.render
-      player.first.make_move
+      begin
+        player.first.make_move
+      rescue InvalidMoveError => e
+        puts e.message
+        retry
+      end
+        
       @players.rotate!
     end
     
