@@ -1,0 +1,220 @@
+--- !ruby/object:Game
+board: &1 !ruby/object:Board
+  grid:
+  - - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 0
+      - 1
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 0
+      - 3
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 0
+      - 5
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 0
+      - 7
+      king: false
+      board: *1
+  - - !ruby/object:Piece
+      color: :r
+      position:
+      - 1
+      - 0
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 1
+      - 2
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 1
+      - 4
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 1
+      - 6
+      king: false
+      board: *1
+    - 
+  - - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 2
+      - 1
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 2
+      - 3
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 2
+      - 5
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :r
+      position:
+      - 2
+      - 7
+      king: false
+      board: *1
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 4
+      - 1
+      king: false
+      board: *1
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - !ruby/object:Piece
+      color: :b
+      position:
+      - 5
+      - 0
+      king: false
+      board: *1
+    - 
+    - 
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 5
+      - 4
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 5
+      - 6
+      king: false
+      board: *1
+    - 
+  - - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 6
+      - 1
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 6
+      - 3
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 6
+      - 5
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 6
+      - 7
+      king: false
+      board: *1
+  - - !ruby/object:Piece
+      color: :b
+      position:
+      - 7
+      - 0
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 7
+      - 2
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 7
+      - 4
+      king: false
+      board: *1
+    - 
+    - !ruby/object:Piece
+      color: :b
+      position:
+      - 7
+      - 6
+      king: false
+      board: *1
+    - 
+  reds_jumped: 0
+  blacks_jumped: 0
+players:
+- !ruby/object:HumanPlayer
+  name: g
+  color: :r
+- !ruby/object:HumanPlayer
+  name: j
+  color: :b

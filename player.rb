@@ -20,12 +20,18 @@ class HumanPlayer < Player
   
   def make_move
     puts "Hi #{@name}, you are #{color_to_s}."
+    puts "Type 'save' at any time to save game and exit."
     start_pos = get_input("Which piece would you like to move? (ex. 2,7)")
+    
+    return :save if start_pos == :save
     
     move_seq = []
     
     loop do
       move_seq << get_input("Where would you like to move to?")
+      
+      return :save if move_seq.include?(:save)
+      
       puts "Make another move? (y/n)"
       another_move = gets.chomp
       break if another_move.downcase != "y"
@@ -37,7 +43,11 @@ class HumanPlayer < Player
   def get_input(message)
     begin
       puts message
-      input = gets.chomp.squeeze.split(",")
+      # checking for save
+      input = gets.chomp
+      return :save if input.downcase == "save"
+      
+      input = input.squeeze.split(",")
       pos = input.map { |i| Integer(i) }
       
       if input.count != 2
