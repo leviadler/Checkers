@@ -19,6 +19,8 @@ class Game
       board.render
       begin
         start_pos, move_seq = @players.first.make_move
+        check_start_pos(start_pos)
+        
         board[start_pos].perform_moves(move_seq)
       rescue InvalidMoveError => e
         puts e.message
@@ -34,6 +36,14 @@ class Game
   
   def won?
     board.pieces(:b).empty? || board.pieces(:r).empty?
+  end
+  
+  def check_start_pos(pos)
+    if board.empty?(pos)
+      raise InvalidMoveError, "No piece at #{pos}!"
+    elsif board[pos].color != @players.first.color
+      raise InvalidMoveError, "Thats not your piece!"
+    end
   end
     
 end
