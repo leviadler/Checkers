@@ -40,7 +40,22 @@ class Piece
   end
   
   def valid_move_seq?(move_sequence)
-    
+    new_board = board.dup
+    begin
+      new_board[position].perform_moves!(move_sequence)
+    rescue
+      return false
+    else
+      true
+    end
+  end
+  
+  def perform_moves(move_sequence)
+    if valid_move_seq?(move_sequence)
+      perform_moves!(move_sequence)
+    else
+      raise InvalidMoveError, "Invalid move sequence!"
+    end
   end
   
   def perform_slide(end_pos)
@@ -149,19 +164,22 @@ end
 if __FILE__ == $PROGRAM_NAME
   b = Board.new(true)
   b.render
-  b[[2,1]].perform_moves!([[3,2]])
+  b[[2,1]].perform_moves([[3,2]])
   b.render
-  b[[5,2]].perform_moves!([[4,3]])
+  b[[5,2]].perform_moves([[4,3]])
   b.render
-  b[[4,3]].perform_moves!([[2,1]])
+  b[[4,3]].perform_moves([[2,1]])
   b.render
-  b[[1,2]].perform_moves!([[3,0]])
+  b[[1,2]].perform_moves([[3,0]])
   b.render
-  b[[5,0]].perform_moves!([[4,1]])
+  b[[5,0]].perform_moves([[4,1]])
   b.render
   b[[7,4]] = nil
   b.render
   
-  b[[3,0]].perform_moves!([[5,2], [7,4]])
+  b[[3,0]].perform_moves([[5,2], [7,4]])
+  b.render
+  
+  b[[6,1]].perform_moves([[5,2], [4,3]])
   b.render
 end
