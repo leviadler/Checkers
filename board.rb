@@ -11,6 +11,7 @@ class Board
   end
 
   def render
+    system "clear"
     puts  "   0  1  2  3  4  5  6  7"
     BOARD_SIZE.times do |x|
       print "#{x} "
