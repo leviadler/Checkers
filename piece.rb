@@ -23,14 +23,24 @@ class Piece
     if slide_positions.include?(end_pos)
       board[self.position] = nil
       board[end_pos] = self
-      true
+      return true
     end
     #raise "invalid"
     false
   end
 
-  def perform_jump
-    generate_jumps(move_diffs.last)
+  def perform_jump(end_pos)
+    jump_positions = generate_jumps(move_diffs.last)
+    p jump_positions.include?(end_pos)
+    if jump_positions.include?(end_pos)
+      board[self.position] = nil
+      board[end_pos] = self
+      pos_jumping = [end_pos[0] + 1, end_pos[1] + 1] # this is incorrect and only works when going up left
+      board[pos_jumping] = nil
+      return true
+    end
+    raise "invalid jump"
+    false
   end
 
   def move_diffs
@@ -49,7 +59,7 @@ class Piece
 
     moves.each do |a, b|
       new_position = [x + a, y + b]
-      if board.valid_move?(new_position) && board[new_position].nil?
+      if valid_move?(new_position)
         slide_positions << new_position
       end
     end
@@ -57,8 +67,33 @@ class Piece
     slide_positions
   end
 
-  def generate_jumps(moves)
 
+  # maybe generate jumps should take a .zip of slides and jumps and return both the [valid_move, pos_jumping] in a 2D array?
+  # then can itterate with_index
+  # seems long and not necessary
+  def generate_jumps(moves)
+    x, y = position
+    jump_positions = []
+    positions_jumping = move_diffs.first
+
+    moves.each_with_index do |move, index|
+      new_position = [x + move.first, y + move.last]
+      pos_jumping = [x + positions_jumping[index][0], y + positions_jumping[index][1]]
+      p pos_jumping
+      if valid_jump?(new_position, pos_jumping)
+        jump_positions << new_position
+      end
+    end
+
+    jump_positions
+  end
+
+  def valid_move?(pos)
+    board.on_board?(pos) && board.empty?(pos)
+  end
+
+  def valid_jump?(pos, pos_jumping)
+    valid_move?(pos) && board.has_opponent?(self.color, pos_jumping)
   end
 
   def maybe_promote
@@ -83,5 +118,11 @@ if __FILE__ == $PROGRAM_NAME
   b = Board.new(true)
   b.render
   b[[2,1]].perform_slide([3,2])
+  b.render
+  b[[5,2]].perform_slide([4,3])
+  b.render
+  b[[4,3]].perform_jump([2,1])
+  b.render
+  b[[1,2]].perform_jump([3,0])
   b.render
 end

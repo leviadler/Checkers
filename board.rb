@@ -37,8 +37,16 @@ class Board
     piece.position = pos if piece
   end
 
-  def valid_move?(pos)
+  def empty?(pos)
+    self[pos].nil?
+  end
+
+  def on_board?(pos)
     pos.all? { |coord| coord.between?(0, 7) }
+  end
+
+  def has_opponent?(color, pos)
+    self[pos] && self[pos].color != color
   end
 
   # not sure if needed
