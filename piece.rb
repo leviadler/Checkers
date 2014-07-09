@@ -174,6 +174,8 @@ class Piece
 
 end
 
+
+# For testing
 if __FILE__ == $PROGRAM_NAME
   b = Board.new(true)
   b.render
@@ -195,8 +197,7 @@ if __FILE__ == $PROGRAM_NAME
 
   b[[5,6]].perform_moves([[4,5]])
   b.render
-  #b[[0,1]].perform_moves([[1,2]])
-  #b.render
+
   b[[7,4]].perform_moves([[5,6], [3,4]])
   b.render
 end

@@ -17,10 +17,8 @@ class Board
   def render
     system "clear"
     puts  "   0  1  2  3  4  5  6  7"
-    #puts  "     A  B  C  D  E  F  G  H"
     BOARD_SIZE.times do |x|
       print "#{x} "
-      #print "#{BOARD_SIZE - x} "
       BOARD_SIZE.times do |y|
         str = self[[x,y]] ? " #{self[[x,y]]} " : "   "
         if (x + y).odd?
